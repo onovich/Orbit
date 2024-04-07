@@ -1,6 +1,6 @@
 namespace TenonKit.Orbit {
 
-    public enum TrackPathShape {
+    public enum TrackShape {
 
         None,
         Line,

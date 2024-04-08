@@ -4,9 +4,7 @@ namespace TenonKit.Orbit {
 
         None,
         Line,
-        Spline,
         Bezier,
-        CatmullRom,
 
     }
 

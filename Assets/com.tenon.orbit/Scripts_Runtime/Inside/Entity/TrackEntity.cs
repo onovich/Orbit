@@ -17,6 +17,9 @@ namespace TenonKit.Orbit {
         // Attr
         float speed;
         TrackLoopType loopType;
+        TrackShape trackShape;
+        Vector2 controlPoint1;
+        Vector2 controlPoint2;
 
         // State
         Vector2 carPos;
@@ -52,6 +55,15 @@ namespace TenonKit.Orbit {
             this.loopType = loopType;
         }
 
+        internal void SetTrackShape(TrackShape trackShape) {
+            this.trackShape = trackShape;
+        }
+
+        internal void SetControlPoint(Vector2 controlPoint1, Vector2 controlPoint2) {
+            this.controlPoint1 = controlPoint1;
+            this.controlPoint2 = controlPoint2;
+        }
+
         internal void SetSpeed(float speed) {
             this.speed = speed;
         }
@@ -81,7 +93,8 @@ namespace TenonKit.Orbit {
             var nextIndex = pathNodeComponent.GetNextIndex(loopType, ref direction);
             var endPos = pathNodeComponent.GetNode(nextIndex);
             currentSec += dt;
-            var currentPos = Vector2.Lerp(startPos, endPos, currentSec / durationSec);
+            var t = currentSec / durationSec;
+            var currentPos = TrackPosUtil.CalculateNextPoint(trackShape, startPos, endPos, t, controlPoint1, controlPoint2);
             carLastFramePos = carPos;
             carPos = currentPos;
         }

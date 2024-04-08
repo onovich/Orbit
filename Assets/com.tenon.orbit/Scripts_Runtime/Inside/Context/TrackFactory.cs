@@ -4,13 +4,15 @@ namespace TenonKit.Orbit {
 
     internal static class TrackFactory {
 
-        internal static int SpawnTrack(TrackCoreContext ctx, Vector2[] nodeArr, int originalIndex, int originalDirection, TrackLoopType loopType, float speed) {
+        internal static int SpawnTrack(TrackCoreContext ctx, Vector2[] nodeArr, float speed, int originalIndex, int originalDirection, TrackLoopType loopType, TrackShape trackShape, Vector2 controlPoint1, Vector2 controlPoint2) {
             var track = new TrackEntity();
             var id = ctx.IDService.PickTrackID();
             track.SetID(id);
             track.SetNode(nodeArr, originalIndex);
             track.SetDirection(originalDirection);
             track.SetLoopType(loopType);
+            track.SetTrackShape(trackShape);
+            track.SetControlPoint(controlPoint1, controlPoint2);
             track.SetSpeed(speed);
             track.InitTimer();
             ctx.AddTrack(track);

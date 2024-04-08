@@ -12,8 +12,8 @@ namespace TenonKit.Orbit {
             ctx = new TrackCoreContext();
         }
 
-        public int CreateTrack(Vector2[] nodeArr, int originalIndex, int originalDirection, TrackLoopType loopType, TrackShape trackShape, float speed) {
-            return TrackFactory.SpawnTrack(ctx, nodeArr, originalIndex, originalDirection, loopType, trackShape, speed);
+        public int CreateTrack(Vector2[] nodeArr, int originalIndex, float speed, int originalDirection, TrackLoopType loopType, TrackShape trackShape, Vector2? controlPoint1 = null, Vector2? controlPoint2 = null) {
+            return TrackFactory.SpawnTrack(ctx, nodeArr, speed, originalIndex, originalDirection, loopType, trackShape, controlPoint1, controlPoint2);
         }
 
         public bool TryGetTrackPos(int id, out Vector2 pos) {

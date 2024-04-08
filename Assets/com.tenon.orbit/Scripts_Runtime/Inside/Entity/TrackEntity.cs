@@ -20,6 +20,7 @@ namespace TenonKit.Orbit {
         TrackShape trackShape;
         Vector2 controlPoint1;
         Vector2 controlPoint2;
+        int splineAccuracy; // 曲线精细度, 用于计算曲线长度
 
         // State
         Vector2 carPos;
@@ -64,6 +65,10 @@ namespace TenonKit.Orbit {
             this.controlPoint2 = controlPoint2;
         }
 
+        internal void SetSplineAccuracy(int splineAccuracy) {
+            this.splineAccuracy = splineAccuracy;
+        }
+
         internal void SetSpeed(float speed) {
             this.speed = speed;
         }
@@ -94,7 +99,7 @@ namespace TenonKit.Orbit {
             var endPos = pathNodeComponent.GetNode(nextIndex);
             currentSec += dt;
             var t = currentSec / durationSec;
-            var currentPos = TrackPosUtil.CalculateNextPoint(trackShape, startPos, endPos, t, controlPoint1, controlPoint2);
+            var currentPos = TrackUtil.CalculateNextPoint(trackShape, startPos, endPos, t, controlPoint1, controlPoint2);
             carLastFramePos = carPos;
             carPos = currentPos;
         }
@@ -119,9 +124,9 @@ namespace TenonKit.Orbit {
         // Timer
         void ReCalculateTimer(int currentIndex, int nextIndex) {
             currentSec = 0;
-            var currentPos = pathNodeComponent.GetNode(currentIndex);
-            var nextPos = pathNodeComponent.GetNode(nextIndex);
-            var dis = Vector2.Distance(currentPos, nextPos);
+            var currentNode = pathNodeComponent.GetNode(currentIndex);
+            var nextNode = pathNodeComponent.GetNode(nextIndex);
+            var dis = TrackUtil.CalculateDistance(trackShape, currentNode, nextNode, controlPoint1, controlPoint2, splineAccuracy);
             durationSec = dis / speed;
         }
 

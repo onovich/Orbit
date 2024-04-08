@@ -4,7 +4,7 @@ using MortiseFrame.Swing;
 
 namespace TenonKit.Orbit {
 
-    public static class TrackPosUtil {
+    public static class TrackUtil {
 
         public static Vector2 CalculateNextPoint(TrackShape trackShape, Vector2 startPos, Vector2 endPos, float t, Vector2 controlPoint1, Vector2 controlPoint2) {
             switch (trackShape) {
@@ -17,8 +17,20 @@ namespace TenonKit.Orbit {
             }
         }
 
-        private static Vector2 LinearInterpolation(Vector2 startPos, Vector2 endPos, float t) {
+        static Vector2 LinearInterpolation(Vector2 startPos, Vector2 endPos, float t) {
             return Vector2.Lerp(startPos, endPos, t);
+        }
+
+        public static float CalculateDistance(TrackShape trackShape, Vector2 startPos, Vector2 endPos, Vector2 controlPoint1, Vector2 controlPoint2, int splineAccuracy) {
+            switch (trackShape) {
+                case TrackShape.Line:
+                    return Vector2.Distance(startPos, endPos);
+                case TrackShape.Bezier:
+                    return SplineHelper.CalculateSplineLength(startPos, controlPoint1, controlPoint2, endPos, SplineType.Bezier, splineAccuracy);
+                default:
+                    return 0;
+            }
+
         }
 
     }
